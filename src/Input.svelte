@@ -1,31 +1,34 @@
 <script>
   import Movies from "./Movies.svelte";
   let value = "";
-  let loading = false;
-  let movies = [];
+  let promise = Promise.resolve([]);
+
+  async function fetchMovies(arg) {
+    const response = await self.fetch(
+      `https://www.omdbapi.com/?s=cars&apikey=422350ff`
+    );
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error(`Ha ocurrido un error`);
+    }
+  }
 
   const handleInput = (event) => {
     value = event.target.value;
-    console.log(event.target.value);
     $: if (value.length > 2) {
-      loading = true;
-      fetch(`https://www.omdbapi.com/?s=${value}&apikey=422350ff`)
-        .then((res) => res.json())
-        .then((apiRes) => {
-          movies = apiRes.Search || [];
-          loading = false;
-        })
-        .catch((error) => (loading = false));
+      promise = fetchMovies(value);
     }
   };
 </script>
 
 <input placeholder="Search movies...." on:input={handleInput} {value} />
 
-{#if loading}
+{#await promise}
   <strong>Loading.....</strong>
-{:else if movies.length > 0}
-  <Movies {movies} />
-{:else}
-  <strong>Dont have movies</strong>
-{/if}
+{:then movies}
+  <Movies movies={movies.Search} />
+{:catch error}
+  <p style="color: red">{error.message}</p>
+{/await}

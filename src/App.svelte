@@ -1,31 +1,19 @@
 <script>
   import Input from "./Input.svelte";
-  export let name;
 </script>
 
-<main>
-  <h1>Buscador de {name}!</h1>
+<section>
+  <h1>Search Movies</h1>
   <Input />
-</main>
+</section>
 
 <style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-  }
-
   h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
+    font-size: 32px;
   }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
+  section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
   }
 </style>
