@@ -1,4 +1,5 @@
 <script>
+  import Movies from "./Movies.svelte";
   let value = "";
   let loading = false;
   let movies = [];
@@ -24,9 +25,7 @@
 {#if loading}
   <strong>Loading.....</strong>
 {:else if movies.length > 0}
-  <strong>We have {movies.length} movies</strong>
+  <Movies {movies} />
 {:else}
   <strong>Dont have movies</strong>
 {/if}
-
-<!-- {movies.length > 0 ? `We have ${movies.length} movies` : `Dont have movies`} -->
